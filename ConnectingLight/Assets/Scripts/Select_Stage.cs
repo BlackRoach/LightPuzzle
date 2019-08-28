@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Main_Page : MonoBehaviour
+
+public class Select_Stage : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -16,17 +17,10 @@ public class Main_Page : MonoBehaviour
         
     }
 
-
-    //Setting창으로 화면 전환
-    public void Setting_btn()
+    //메인 화면으로 전환.
+    public void Home_btn()
     {
-        SceneManager.LoadScene("Setting_Page");
+        SceneManager.LoadScene("Main_Page");
     }
 
-
-    //Stage 선택 화면 전환
-    public void Stage_btn()
-    {
-        SceneManager.LoadScene("Select_Stage");
-    }
 }
