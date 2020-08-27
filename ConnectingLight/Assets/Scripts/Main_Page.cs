@@ -18,15 +18,21 @@ public class Main_Page : MonoBehaviour
 
 
     //Setting창으로 화면 전환
-    public void Setting_btn()
+    public void btn_Setting()
     {
         SceneManager.LoadScene("Setting_Page");
     }
 
 
     //Stage 선택 화면 전환
-    public void Stage_btn()
+    public void btn_Stage()
     {
         SceneManager.LoadScene("Select_Stage");
+    }
+
+    //Exit 선택 어플리케이션 종료
+    public void btn_Exit()
+    {
+        Application.Quit();
     }
 }
