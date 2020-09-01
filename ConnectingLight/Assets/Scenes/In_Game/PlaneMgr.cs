@@ -7,12 +7,14 @@ public class PlaneMgr : MonoBehaviour
 {
     public Camera arCamera;
     public GameObject stage;
+    private bool _isStaged;
 
 
     // Start is called before the first frame update
     void Start()
     {
         arCamera = Camera.main;
+        _isStaged = false;
     }
 
     // Update is called once per frame
@@ -25,11 +27,11 @@ public class PlaneMgr : MonoBehaviour
             TrackableHitFlags flags = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal;
                 
             //ARCore레이케스트
-            if(Frame.Raycast(touch.position.x,touch.position.y,flags,out hit))
+            if(Frame.Raycast(touch.position.x,touch.position.y,flags,out hit) && !_isStaged)
             {
                 var anchor = hit.Trackable.CreateAnchor(hit.Pose);               
-
                 Instantiate(stage, hit.Pose.position, hit.Pose.rotation, anchor.transform);
+                _isStaged = true;
             }
         }
     }

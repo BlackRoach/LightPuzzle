@@ -585,6 +585,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!20 &1178487413 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
+    type: 3}
+  m_PrefabInstance: {fileID: 256143903}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1378731060
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,8 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c3cd92c9576db4da93afcbd09b42e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arCamera: {fileID: 0}
-  stage: {fileID: 1503440182097452013, guid: 5afe1f5f6284898439c888965685684e, type: 3}
+  arCamera: {fileID: 1178487413}
+  stage: {fileID: 3566009565615922258, guid: 279dae6a770734449bac4d3ca7274a48, type: 3}
 --- !u!4 &1378731062
 Transform:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ManipulationSystem
   - stage_button
+  - game_obj
   layers:
   - Default
   - TransparentFX
