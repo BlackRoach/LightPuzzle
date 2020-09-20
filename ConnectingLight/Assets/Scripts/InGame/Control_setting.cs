@@ -13,7 +13,7 @@ public class Control_setting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mode = false;
+        mode = true;
     }
 
     // Update is called once per frame

@@ -7,6 +7,9 @@ TagManager:
   - ManipulationSystem
   - stage_button
   - game_obj
+  - goal
+  - score
+  - Mirror
   layers:
   - Default
   - TransparentFX

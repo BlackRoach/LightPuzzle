@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
 public class Control_Click : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class Control_Click : MonoBehaviour
 
     GameObject target,clicked, _clicked_parent, _clicked_sibling;
     float speed = 200f;
+    int score = 0;
 
     private Transform cameraRotate;
+    public Text score_txt;
     
     Camera _mainCam = null;
 
@@ -25,6 +28,7 @@ public class Control_Click : MonoBehaviour
     void Start()
     {
         _mainCam = Camera.main;
+        score_txt.text = "회전 수 : " + Convert.ToString(score);
     }
 
     // Update is called once per frame 
@@ -51,11 +55,13 @@ public class Control_Click : MonoBehaviour
                 _clicked_parent = clicked.transform.parent.gameObject;
                 //_target_sibling = _target_parent.transform.Find("Target").gameObject;
                 _clicked_sibling = _clicked_parent.transform.parent.gameObject;
-                //타겟이 나인가?                
-                Debug.Log("target = " + clicked);                
-                Debug.Log("_target_parent = " + _clicked_parent);                
-                Debug.Log("_target_sibling = " + _clicked_sibling);                
-                Debug.Log("_target_sibling Target = " + _clicked_sibling.transform.Find("Target").gameObject);
+                //타겟이 나인가?          
+                
+                //Debug.Log("target = " + clicked);                
+                //Debug.Log("_target_parent = " + _clicked_parent);                
+                //Debug.Log("_target_sibling = " + _clicked_sibling);                
+                //Debug.Log("_target_sibling Target = " + _clicked_sibling.transform.Find("Target").gameObject);
+
                 target = _clicked_sibling.transform.Find("Target").gameObject;
                 
             }
@@ -110,7 +116,7 @@ public class Control_Click : MonoBehaviour
         if (Input.GetMouseButton(0) )
         {
             mouseDelta = Input.mousePosition - previousMousePosition;
-            mouseDelta *= 0.2f; //rotation speed 줄이기.
+            mouseDelta *= 0.1f; //rotation speed 줄이기.
             _clicked_parent.transform.rotation = Quaternion.Euler(mouseDelta.y, -mouseDelta.x, 0) * _clicked_parent.transform.rotation;
 
         }
@@ -135,18 +141,11 @@ public class Control_Click : MonoBehaviour
             clicked = GetClickedObject();
             if(clicked != null)
             {
-                _clicked_parent = clicked.transform.parent.gameObject;
-                //_target_sibling = _target_parent.transform.Find("Target").gameObject;
+                _clicked_parent = clicked.transform.parent.gameObject;             
                 _clicked_sibling = _clicked_parent.transform.parent.gameObject;
-                //타겟이 나인가?                
-                Debug.Log("target = " + clicked);
-                Debug.Log("_target_parent = " + _clicked_parent);
-                Debug.Log("_target_sibling = " + _clicked_sibling);
-                Debug.Log("_target_sibling Target = " + _clicked_sibling.transform.Find("Target").gameObject);
                 target = _clicked_sibling.transform.Find("Target").gameObject;
                 //클릭 시 2D 좌표 얻어오기. 
-                firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                //print(firstPressPos);
+                firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);                
             }
 
 
@@ -161,36 +160,175 @@ public class Control_Click : MonoBehaviour
             currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
             //일반화.
             currentSwipe.Normalize();
-            if (target != null)
-            {
-                //드래그 방향.
-                if (LeftSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(0, 90, 0, Space.World);
-                }
-                else if (RightSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(0, -90, 0, Space.World);
-                }
-                else if (UpLeftSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(90, 0, 0, Space.World);
-                }
-                else if (UpRightSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(0, 0, -90, Space.World);
-                }
-                else if (DownLeftSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(0, 0, 90, Space.World);
-                }
-                else if (DownRightSwipe(currentSwipe))
-                {
-                    target.transform.Rotate(-90, 0, 0, Space.World);
-                }
-            }
+            controlSwipe(currentSwipe);
         }
 
+    }
+    void controlSwipe(Vector2 currentSwipe)
+    {
+        
+
+        if (target != null)
+        {
+            score++;
+            score_txt.text = "회전 수 : " + Convert.ToString(score);
+            if ((_mainCam.transform.position.x - target.transform.position.x) <= 0)
+            {
+                if ((_mainCam.transform.position.z - target.transform.position.z) <= 0)
+                {
+                    //드래그 방향.
+                    if (LeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 90, 0, Space.World);
+                    }
+                    else if (RightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, -90, 0, Space.World);
+                    }
+                    else if (UpLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(90, 0, 0, Space.World);
+                    }
+                    else if (UpRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, -90, Space.World);
+                    }
+                    else if (DownLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, 90, Space.World);
+                    }
+                    else if (DownRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(-90, 0, 0, Space.World);
+                    }
+                    print("--");
+                }
+                else
+                {
+                    //나중에 다시 확인해볼것.
+                    //드래그 방향.
+                    if (LeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 90, 0, Space.World);
+                    }
+                    else if (RightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, -90, 0, Space.World);
+                    }
+                    else if (UpLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(90, 0, 0, Space.World);
+                    }
+                    else if (UpRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, -90, Space.World);
+                    }
+                    else if (DownLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, 90, Space.World);
+                    }
+                    else if (DownRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(-90, 0, 0, Space.World);
+                    }
+                    print("-+");
+                }
+            }
+            else
+            {
+                if ((_mainCam.transform.position.z - target.transform.position.z) <= 0)
+                {
+                    //드래그 방향.
+                    if (LeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 90, 0, Space.World);
+                    }
+                    else if (RightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, -90, 0, Space.World);
+                    }
+                    else if (UpLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, 90, Space.World);
+                        
+                        //target.transform.Rotate(90, 0, 0, Space.World);
+                    }
+                    else if (UpRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(90, 0, 0, Space.World);
+                        //target.transform.Rotate(0, 0, -90, Space.World);
+                       
+                    }
+                    else if (DownLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(-90, 0, 0, Space.World);
+                        //target.transform.Rotate(0, 0, 90, Space.World);
+                    }
+                    else if (DownRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, -90, Space.World);
+                        //target.transform.Rotate(-90, 0, 0, Space.World);
+
+                    }
+                    print("+-");
+                }
+                else
+                {
+                    //나중에 다시 확인해볼것.
+                    //드래그 방향.
+                    if (LeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 90, 0, Space.World);
+                    }
+                    else if (RightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, -90, 0, Space.World);
+                    }
+                    else if (UpLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(90, 0, 0, Space.World);
+                    }
+                    else if (UpRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, -90, Space.World);
+                    }
+                    else if (DownLeftSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(0, 0, 90, Space.World);
+                    }
+                    else if (DownRightSwipe(currentSwipe))
+                    {
+                        target.transform.Rotate(-90, 0, 0, Space.World);
+                    }
+                    print("++");
+                }
+            }
+            ////드래그 방향.
+            //if (LeftSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(0, 90, 0, Space.World);
+            //}
+            //else if (RightSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(0, -90, 0, Space.World);
+            //}
+            //else if (UpLeftSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(90, 0, 0, Space.World);
+            //}
+            //else if (UpRightSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(0, 0, -90, Space.World);
+            //}
+            //else if (DownLeftSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(0, 0, 90, Space.World);
+            //}
+            //else if (DownRightSwipe(currentSwipe))
+            //{
+            //    target.transform.Rotate(-90, 0, 0, Space.World);
+            //}
+        }
     }
 
     bool LeftSwipe(Vector2 swipe)
